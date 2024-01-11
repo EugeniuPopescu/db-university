@@ -14,5 +14,35 @@
 4) SELECT * FROM `courses` WHERE period = "I semestre" AND year = 1;
 5) SELECT * FROM `exams` WHERE date = "2020-06-20" AND hour >= "14:00:00";
 6) SELECT * FROM `degrees` WHERE level = "magistrale";
-7) SELECT COUNT(id) FROM `departments`;
+7) SELECT COUNT(id) AS "Dipartimenti" FROM `departments`;
 8) SELECT * FROM `teachers` WHERE phone IS NULL;
+
+
+GROUP BY QUERY 
+1. Contare quanti iscritti ci sono stati ogni anno
+2. Contare gli insegnanti che hanno l'ufficio nello stesso edificio
+3. Calcolare la media dei voti di ogni appello d'esame
+4. Contare quanti corsi di laurea ci sono per ogni dipartimento
+
+
+1)  SELECT COUNT(*) AS iscritti, 
+    YEAR(enrolment_date) AS anno_iscrizione 
+    FROM `students` 
+    GROUP BY anno_iscrizione;
+
+2)  SELECT COUNT(*) AS n_insegnati,
+    office_address
+    FROM `teachers`
+    GROUP BY office_address;
+
+3)  SELECT AVG(vote) as media, exam_id
+    FROM exam_student
+    GROUP BY exam_id;
+
+4)  SELECT COUNT(degrees.name) AS n_corsi, 
+    departments.name AS nome_dipartimento
+    FROM degrees
+    JOIN departments
+    ON degrees.department_id = departments.id
+    GROUP BY departments.name;
+
